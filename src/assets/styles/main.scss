@@ -1,0 +1,137 @@
+@import './variables';
+
+%positioning {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}
+
+@keyframes fade-from-black {
+  from { background-color: rgba(0, 0, 0, 1); }
+  to { background-color: rgba(0, 0, 0, 0); }
+}
+
+@keyframes to-transparent-bg {
+  to {
+    background-color: rgba(0, 0, 0, 0);
+    -webkit-text-fill-color: rgba(255, 255, 255, 1);
+  }
+}
+
+@keyframes transform-animation-0 {
+  from { margin-top: 0; }
+  to { margin-top: -250px; }
+}
+@keyframes transform-animation-1 {
+  from { margin-top: 0; }
+  to { margin-top: 0; }
+}
+@keyframes transform-animation-2 {
+  from { margin-top: 0; }
+  to { margin-top: 250px; }
+}
+@keyframes transform-animation-3 {
+  from { margin-top: 0; }
+  to { margin-top: 500px; }
+}
+@keyframes transform-animation-4 {
+  from { margin-top: 0; }
+  to { margin-top: 250px; }
+}
+@keyframes transform-animation-5 {
+  from { margin-top: 0; }
+  to { margin-top: 0; }
+}
+@keyframes transform-animation-6 {
+  from { margin-top: 0; }
+  to { margin-top: -250px; }
+}
+
+@mixin animate-fades($delay, $times, $closing-animation, $translation) {
+  @if $closing-animation {
+    animation: fade-from-black 2s linear $delay $times alternate forwards,
+               $closing-animation .25s ease-out 16s 1 alternate forwards,
+               $translation 2s linear 16s 1 alternate forwards;
+  } @else {
+    animation: fade-from-black 2s linear $delay $times alternate forwards;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+::before,
+::after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background-color: #000;
+  color: #fff;
+  font-family: 'Oswald', sans-serif;
+}
+
+.container {
+  @extend %positioning;
+  height: 100%;
+  width: 100%;
+}
+
+.background {
+  background-image: url('./src/assets/images/IMG_5568.JPG');
+  background-size: cover;
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  z-index: -1;
+}
+
+.middle {
+  @include animate-fades(16s, 1, null, null);
+  background-color: rgba(0, 0, 0, 1);
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+.foreground {
+  @extend %positioning;
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  z-index: 1;
+}
+
+.clip-text {
+  align-items: center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-image: url('./src/assets/images/IMG_5568.JPG');
+  background-size: cover;
+  color: #fff;
+  display: grid;
+  font-size: 264px;
+  font-weight: bold;
+  grid-template-columns: repeat(7, 1fr);
+  justify-items: center;
+  line-height: 1;
+  position: relative;
+  -webkit-text-fill-color: rgba(255,255,255,0);
+}
+
+.letter {
+  background-color: rgba(0, 0, 0, 1);
+}
+
+@each $letter, $i in (i, 0), (l, 1), (u-1, 2), (v, 3), (y, 4), (o, 5), (u-2, 6) {
+  .letter-#{$letter} {
+    @include animate-fades($i * 2s, 2, to-transparent-bg, transform-animation-#{$i});
+  }
+}
